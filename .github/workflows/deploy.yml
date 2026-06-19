@@ -20,7 +20,7 @@ jobs:
       - name: 配置 Node.js 环境
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 👈 这里从 18 改成 20
+          node-version: '22'
 
       - name: 安装依赖 (npm install)
         run: npm install

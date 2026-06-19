@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ant Design Pro</title>
+  <script>
+    // GitHub Pages 静态托管不支持 browser history，
+    // 访问根路径时自动跳转到 hash 路由
+    (function () {
+      var path = window.location.pathname;
+      var base = '/test-umi01';
+      // 如果访问的是根路径（没有 hash），跳转到 #/
+      if (path === base + '/' || path === base || path === base + '') {
+        window.location.replace(base + '/#/');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <p>正在跳转...</p>
+</body>
+</html>

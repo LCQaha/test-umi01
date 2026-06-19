@@ -31,9 +31,15 @@ const commitHash =
  * @description 部署时的路径，如果部署在非根目录下，需要配置这个变量
  * @doc https://umijs.org/docs/api/config#publicpath
  */
-const PUBLIC_PATH: string = '/';
+const PUBLIC_PATH: string = '/test-umi01/';
 
 export default defineConfig({
+  /**
+   * @name 路由历史模式
+   * @description GitHub Pages 是静态服务器，不支持 browser history，需要使用 hash 模式
+   * @doc https://umijs.org/docs/api/config#history
+   */
+  history: { type: 'hash' },
   alias: {
     '@root': join(__dirname, '..'),
   },
