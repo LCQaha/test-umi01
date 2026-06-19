@@ -1,31 +1,41 @@
-name: Deploy to GitHub Pages
+name: Deploy Umi to GitHub Pages
 
 on:
   push:
-    branches:
-      - all-blocks
+    branches: ["master", "main"] # 当你推送到 main 或 master 分支时触发
 
+# 赋予 GitHub Actions 写入 Pages 的权限
 permissions:
-  contents: write
+  contents: read
   pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - name: 拉取代码 (Checkout)
+        uses: actions/checkout@v4
 
-      - uses: utooland/setup-utoo@3a51006d0b66afcc32d1b9177a4b200b74f4a8cb # v1
-      - run: ut
-      - name: Set COMMIT_HASH
-        run: echo "COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
-      - run: ut build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+      - name: 配置 Node.js 环境
+        uses: actions/setup-node@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          cname: preview.pro.ant.design
+          node-version: '18' # 使用稳定的 Node 版本
+
+      - name: 安装依赖 (npm install)
+        run: npm install
+
+      - name: 编译打包 (npm run build)
+        run: npm run build
+
+      - name: 配置 GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: 上传打包产物 (dist 文件夹)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist' # 这里指定只发布 dist 文件夹里的内容
+
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
